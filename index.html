@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+
+    .todo-container {
+      width: 350px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .input-section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .input-section input[type="text"] {
+      width: 80%;
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .input-section button {
+      width: 18%;
+      padding: 8px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .input-section button:hover {
+      background-color: #218838;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    ul li {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #f9f9f9;
+      margin-bottom: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      align-items: center;
+    }
+
+    ul li .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    ul li .delete-btn:hover {
+      background-color: #c82333;
+    }
+
+    .checked{
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="todo-container">
+    <h2>To-Do List (createElement)</h2>
+    <div class="input-section">
+      <input required type="text" id="task-input" placeholder="Add a new task" value="">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="task-list">
+
+    </ul>
+  </div>
+
+
+  <script>
+    let taskInput = document.querySelector('#task-input');
+    let taskList = document.querySelector('#task-list');
+
+    function addTask(){
+      let listItem = document.createElement('li');
+      let span = document.createElement('span');
+      let checkbox = document.createElement('input');
+      let label = document.createElement('label');
+      let button = document.createElement('button');
+
+      taskList.appendChild(listItem);
+      listItem.appendChild(span);
+      span.appendChild(checkbox);
+      span.appendChild(label);
+      listItem.appendChild(button);
+
+      checkbox.type = 'checkbox';
+      checkbox.setAttribute("onclick", "completedTask(this)");
+      label.innerText = " " + taskInput.value;
+      button.innerText = 'Delete';
+      button.className = 'delete-btn';
+      button.setAttribute("onclick", "deleteTask(this)");
+
+      localStorage.setItem("TaskItem", listItem);
+      const localTaskItem = localStorage.getItem("TaskItem");
+      console.log(localTaskItem);
+
+      console.log(taskList);
+      taskInput.value = '';
+    }
+
+    function deleteTask(deleteItem){
+      const taskItem = deleteItem.parentElement;
+      taskItem.remove();
+    }
+
+    function completedTask(markItem){
+      const completeItem = markItem.nextElementSibling;
+      completeItem.classList.toggle("checked");
+    }
+  </script>
+  
+</body>
+</html>
